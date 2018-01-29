@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -23,13 +24,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" fixedFrame="YES" insetsLayoutMarginsFromSafeArea="NO" image="launch_image" translatesAutoresizingMaskIntoConstraints="NO" id="HtY-0r-JcC">
-                                <rect key="frame" x="118" y="299" width="138" height="139"/>
-                                <autoresizingMask key="autoresizingMask"/>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" insetsLayoutMarginsFromSafeArea="NO" image="launch_image" translatesAutoresizingMaskIntoConstraints="NO" id="HtY-0r-JcC">
+                                <rect key="frame" x="118" y="264" width="138" height="139"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Flix" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C3Y-G6-PxR">
-                                <rect key="frame" x="155" y="207" width="65" height="47"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Flix" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C3Y-G6-PxR">
+                                <rect key="frame" x="155" y="140" width="65" height="47"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="C3Y-G6-PxR" secondAttribute="height" multiplier="65:47" id="EPm-vf-iOZ"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="40"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -37,6 +39,13 @@
                         </subviews>
                         <color key="backgroundColor" red="0.20392156859999999" green="0.28627450980000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" red="0.0" green="0.56284224989999998" blue="0.31881666180000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="HtY-0r-JcC" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="0T1-8V-PkF"/>
+                            <constraint firstItem="HtY-0r-JcC" firstAttribute="top" secondItem="C3Y-G6-PxR" secondAttribute="bottom" constant="77" id="Rp1-IF-sUb"/>
+                            <constraint firstItem="HtY-0r-JcC" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Z2t-fy-Vvx"/>
+                            <constraint firstItem="HtY-0r-JcC" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="cHj-Dk-3cn"/>
+                            <constraint firstItem="C3Y-G6-PxR" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="pvd-V6-71l"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
