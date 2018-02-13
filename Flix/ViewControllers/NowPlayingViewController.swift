@@ -15,7 +15,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var refreshingIndicator: UIActivityIndicatorView!
     
-    var movies: [[String: Any]] = []
+    var movies: [Movie] = []
     var refreshControl: UIRefreshControl!
     
     override func viewDidLoad() {
@@ -41,6 +41,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
         
         self.tableView.isHidden = true;
         self.refreshingIndicator.startAnimating()
+        /*
         let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed")!
         let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
         let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
@@ -50,15 +51,29 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
                 print(error.localizedDescription)
             } else if let data = data {
                 let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+                let movieDictionaries = dataDictionary["results"] as! [[String: Any]]
+                
+                self.movies = []
+                for dictionary in movieDictionaries {
+                    let movie = Movie(dictionary: dictionary)
+                    self.movies.append(movie)
+                }
+                /*
+                let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
                 let movies = dataDictionary["results"] as! [[String: Any]]
                 self.movies = movies
+                */
+ */
+        MovieApiManager().nowPlayingMovies { (movies: [Movie]?, error: Error?) in
+            if let movies = movies {
+                self.movies = movies
+            }
                 self.tableView.reloadData()
                 self.refreshingIndicator.stopAnimating()
                 self.refreshControl.endRefreshing()
                 self.tableView.isHidden = false;
             }
-        }
-        task.resume()
+        //task.resume()
         
     }
     
@@ -68,25 +83,10 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
-        cell.selectionStyle = .none
-        
-        let movie = movies[indexPath.row]
-        let title = movie["title"] as! String
-        let overview = movie["overview"] as! String
-        cell.titleLabel.text = title
-        cell.overviewLabel.text = overview
-        
-        if let posterPath = movie["poster_path"] as? String {
-            let posterBaseUrl = "https://image.tmdb.org/t/p/w500"
-            let posterUrl = URL(string: posterBaseUrl + posterPath)
-            cell.posterImageView.af_setImage(withURL: posterUrl!)
-        }
-        else {
-            // No poster image. Can either set to nil (no image) or a default movie poster image
-            // that you include as an asset
-            cell.posterImageView.image = nil
-        }
-        
+        cell.movie = movies[indexPath.row]
+        cell.titleLabel.text = cell.movie.title
+        cell.overviewLabel.text = cell.movie.description
+        cell.posterImageView.af_setImage(withURL: cell.movie.posterUrl!)
         return cell
     }
     
@@ -94,9 +94,8 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let cell = sender as! UITableViewCell
         if let indexPath = tableView.indexPath(for: cell) {
-            let movie = movies[indexPath.row]
             let detailViewController = segue.destination as! DetailViewController
-            detailViewController.movie = movie
+            detailViewController.movie = movies[indexPath.row]
         }
         
     }
